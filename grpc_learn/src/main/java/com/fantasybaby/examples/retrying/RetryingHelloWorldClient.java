@@ -16,16 +16,15 @@
 
 package com.fantasybaby.examples.retrying;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
+import com.fantasybaby.examples.helloworld.GreeterGrpc;
+import com.fantasybaby.examples.helloworld.HelloReply;
+import com.fantasybaby.examples.helloworld.HelloRequest;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+
 import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
@@ -33,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * A client that requests a greeting from the {@link RetryingHelloWorldServer} with a retrying policy.
@@ -50,13 +51,13 @@ public class RetryingHelloWorldClient {
 
   protected Map<String, ?> getRetryingServiceConfig() {
     return new Gson()
-        .fromJson(
-            new JsonReader(
-                new InputStreamReader(
-                    RetryingHelloWorldClient.class.getResourceAsStream(
-                        "retrying_service_config.json"),
-                    UTF_8)),
-            Map.class);
+            .fromJson(
+                    new JsonReader(
+                            new InputStreamReader(
+                                    RetryingHelloWorldClient.class.getResourceAsStream(
+                                            "retrying_service_config.json"),
+                                    UTF_8)),
+                    Map.class);
   }
 
   /**
@@ -65,9 +66,9 @@ public class RetryingHelloWorldClient {
   public RetryingHelloWorldClient(String host, int port, boolean enableRetries) {
 
     ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port)
-        // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
-        // needing certificates.
-        .usePlaintext();
+            // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
+            // needing certificates.
+            .usePlaintext();
     if (enableRetries) {
       Map<String, ?> serviceConfig = getRetryingServiceConfig();
       logger.info("Client started with retrying configuration: " + serviceConfig);
@@ -107,21 +108,21 @@ public class RetryingHelloWorldClient {
 
   private void printSummary() {
     logger.log(
-        Level.INFO,
-        "\n\nTotal RPCs sent: {0}. Total RPCs failed: {1}\n",
-        new Object[]{
-            totalRpcs.get(), failedRpcs.get()});
+            Level.INFO,
+            "\n\nTotal RPCs sent: {0}. Total RPCs failed: {1}\n",
+            new Object[]{
+                    totalRpcs.get(), failedRpcs.get()});
 
     if (enableRetries) {
       logger.log(
-          Level.INFO,
-          "Retrying enabled. To disable retries, run the client with environment variable {0}=true.",
-          ENV_DISABLE_RETRYING);
+              Level.INFO,
+              "Retrying enabled. To disable retries, run the client with environment variable {0}=true.",
+              ENV_DISABLE_RETRYING);
     } else {
       logger.log(
-          Level.INFO,
-          "Retrying disabled. To enable retries, unset environment variable {0} and then run the client.",
-          ENV_DISABLE_RETRYING);
+              Level.INFO,
+              "Retrying disabled. To enable retries, unset environment variable {0} and then run the client.",
+              ENV_DISABLE_RETRYING);
     }
   }
 
@@ -133,12 +134,12 @@ public class RetryingHelloWorldClient {
     for (int i = 0; i < 50; i++) {
       final String userId = "user" + i;
       executor.execute(
-          new Runnable() {
-            @Override
-            public void run() {
-              client.greet(userId);
-            }
-          });
+              new Runnable() {
+                @Override
+                public void run() {
+                  client.greet(userId);
+                }
+              });
     }
     executor.awaitQuiescence(100, TimeUnit.SECONDS);
     executor.shutdown();

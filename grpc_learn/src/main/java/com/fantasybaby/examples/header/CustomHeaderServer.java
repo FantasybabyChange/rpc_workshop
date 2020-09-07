@@ -19,17 +19,17 @@ package com.fantasybaby.examples.header;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.ServerInterceptors;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+import com.fantasybaby.examples.helloworld.GreeterGrpc;
+import com.fantasybaby.examples.helloworld.HelloReply;
+import com.fantasybaby.examples.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
- * A simple server that like {@link io.grpc.examples.helloworld.HelloWorldServer}.
- * You can get and response any header in {@link io.grpc.examples.header.HeaderServerInterceptor}.
+ * A simple server that like {@link com.fantasybaby.examples.helloworld.HelloWorldServer}.
+ * You can get and response any header in {@link com.fantasybaby.examples.header.HeaderServerInterceptor}.
  */
 public class CustomHeaderServer {
   private static final Logger logger = Logger.getLogger(CustomHeaderServer.class.getName());

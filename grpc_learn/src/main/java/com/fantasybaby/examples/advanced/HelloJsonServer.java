@@ -16,20 +16,21 @@
 
 package com.fantasybaby.examples.advanced;
 
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-
+import com.fantasybaby.examples.helloworld.GreeterGrpc;
+import com.fantasybaby.examples.helloworld.HelloReply;
+import com.fantasybaby.examples.helloworld.HelloRequest;
 import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.ServerServiceDefinition;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
-import io.grpc.stub.ServerCalls.UnaryMethod;
+import io.grpc.stub.ServerCalls;
 import io.grpc.stub.StreamObserver;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+
+import static io.grpc.stub.ServerCalls.asyncUnaryCall;
 
 /**
  * Server that manages startup/shutdown of a {@code Greeter} server.
@@ -108,7 +109,7 @@ public class HelloJsonServer {
           .builder(GreeterGrpc.getServiceDescriptor().getName())
           .addMethod(HelloJsonClient.HelloJsonStub.METHOD_SAY_HELLO,
               asyncUnaryCall(
-                  new UnaryMethod<HelloRequest, HelloReply>() {
+                  new ServerCalls.UnaryMethod<HelloRequest, HelloReply>() {
                     @Override
                     public void invoke(
                         HelloRequest request, StreamObserver<HelloReply> responseObserver) {

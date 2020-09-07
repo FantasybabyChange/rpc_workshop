@@ -18,15 +18,15 @@ package com.fantasybaby.examples.advanced;
 
 import static io.grpc.stub.ClientCalls.blockingUnaryCall;
 
+import com.fantasybaby.examples.helloworld.GreeterGrpc;
+import com.fantasybaby.examples.helloworld.HelloReply;
+import com.fantasybaby.examples.helloworld.HelloRequest;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.MethodDescriptor;
 import io.grpc.StatusRuntimeException;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
 import io.grpc.stub.AbstractStub;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;

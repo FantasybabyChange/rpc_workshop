@@ -19,19 +19,19 @@ package com.fantasybaby.examples.experimental;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+import com.fantasybaby.examples.helloworld.GreeterGrpc;
+import com.fantasybaby.examples.helloworld.HelloReply;
+import com.fantasybaby.examples.helloworld.HelloRequest;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * A simple client that requests a greeting from the
- *      {@link io.grpc.examples.helloworld.HelloWorldServer}.
+ *      {@link com.fantasybaby.examples.helloworld.HelloWorldServer}.
  *
  * <p>This class should act a drop in replacement for
- *      {@link io.grpc.examples.helloworld.HelloWorldClient}.
+ *      {@link com.fantasybaby.examples.helloworld.HelloWorldClient}.
  */
 public class CompressingHelloWorldClient {
   private static final Logger logger =

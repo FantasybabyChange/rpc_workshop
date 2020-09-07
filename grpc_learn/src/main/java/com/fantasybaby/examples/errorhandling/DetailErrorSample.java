@@ -18,6 +18,9 @@ package com.fantasybaby.examples.errorhandling;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
+import com.fantasybaby.examples.helloworld.GreeterGrpc;
+import com.fantasybaby.examples.helloworld.HelloReply;
+import com.fantasybaby.examples.helloworld.HelloRequest;
 import com.google.common.base.Verify;
 import com.google.common.base.VerifyException;
 import com.google.common.util.concurrent.FutureCallback;
@@ -33,12 +36,6 @@ import io.grpc.Metadata;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.Status;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.GreeterGrpc.GreeterBlockingStub;
-import io.grpc.examples.helloworld.GreeterGrpc.GreeterFutureStub;
-import io.grpc.examples.helloworld.GreeterGrpc.GreeterStub;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
 import io.grpc.protobuf.ProtoUtils;
 import io.grpc.stub.StreamObserver;
 import java.util.concurrent.CountDownLatch;
@@ -111,7 +108,7 @@ public class DetailErrorSample {
   }
 
   void blockingCall() {
-    GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
+    GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
     try {
       stub.sayHello(HelloRequest.newBuilder().build());
     } catch (Exception e) {
@@ -120,7 +117,7 @@ public class DetailErrorSample {
   }
 
   void futureCallDirect() {
-    GreeterFutureStub stub = GreeterGrpc.newFutureStub(channel);
+    GreeterGrpc.GreeterFutureStub stub = GreeterGrpc.newFutureStub(channel);
     ListenableFuture<HelloReply> response =
         stub.sayHello(HelloRequest.newBuilder().build());
 
@@ -135,7 +132,7 @@ public class DetailErrorSample {
   }
 
   void futureCallCallback() {
-    GreeterFutureStub stub = GreeterGrpc.newFutureStub(channel);
+    GreeterGrpc.GreeterFutureStub stub = GreeterGrpc.newFutureStub(channel);
     ListenableFuture<HelloReply> response =
         stub.sayHello(HelloRequest.newBuilder().build());
 
@@ -163,7 +160,7 @@ public class DetailErrorSample {
   }
 
   void asyncCall() {
-    GreeterStub stub = GreeterGrpc.newStub(channel);
+    GreeterGrpc.GreeterStub stub = GreeterGrpc.newStub(channel);
     HelloRequest request = HelloRequest.newBuilder().build();
     final CountDownLatch latch = new CountDownLatch(1);
     StreamObserver<HelloReply> responseObserver = new StreamObserver<HelloReply>() {

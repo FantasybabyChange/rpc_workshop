@@ -22,15 +22,15 @@ import io.grpc.ClientInterceptors;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+import com.fantasybaby.examples.helloworld.GreeterGrpc;
+import com.fantasybaby.examples.helloworld.HelloReply;
+import com.fantasybaby.examples.helloworld.HelloRequest;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A simple client that like {@link io.grpc.examples.helloworld.HelloWorldClient}.
+ * A simple client that like {@link com.fantasybaby.examples.helloworld.HelloWorldClient}.
  * This client can help you create custom headers.
  */
 public class CustomHeaderClient {
@@ -56,7 +56,7 @@ public class CustomHeaderClient {
   }
 
   /**
-   * A simple client method that like {@link io.grpc.examples.helloworld.HelloWorldClient}.
+   * A simple client method that like {@link com.fantasybaby.examples.helloworld.HelloWorldClient}.
    */
   private void greet(String name) {
     logger.info("Will try to greet " + name + " ...");
