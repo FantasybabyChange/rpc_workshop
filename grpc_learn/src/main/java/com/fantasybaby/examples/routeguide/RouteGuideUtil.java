@@ -49,7 +49,7 @@ public class RouteGuideUtil {
    * Gets the default features file from classpath.
    */
   public static URL getDefaultFeaturesFile() {
-    return RouteGuideServer.class.getResource("route_guide_db.json");
+    return RouteGuideServer.class.getResource("/routeguide/route_guide_db.json");
   }
 
   /**
@@ -76,5 +76,10 @@ public class RouteGuideUtil {
    */
   public static boolean exists(Feature feature) {
     return feature != null && !feature.getName().isEmpty();
+  }
+
+  public static void main(String[] args) {
+    System.out.print(getDefaultFeaturesFile());
+
   }
 }
