@@ -50,7 +50,7 @@ public class HelloWorldClient {
     try {
       response = blockingStub.sayHello(request);
     } catch (StatusRuntimeException e) {
-      log.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+      log.info("RPC failed: {}", e.getStatus());
       return;
     }
     log.info("Greeting: " + response.getMessage());
