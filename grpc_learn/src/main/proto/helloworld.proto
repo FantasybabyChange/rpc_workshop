@@ -24,11 +24,16 @@ package helloworld;
 service Greeter {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply) {}
+
+  rpc shutdown (ShutdownRequest) returns  (HelloReply){}
 }
 
 // The request message containing the user's name.
 message HelloRequest {
   string name = 1;
+}
+message ShutdownRequest {
+  string instruction = 1;
 }
 
 // The response message containing the greetings

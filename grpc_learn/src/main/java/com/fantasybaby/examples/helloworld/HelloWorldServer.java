@@ -19,6 +19,8 @@ package com.fantasybaby.examples.helloworld;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -26,6 +28,7 @@ import java.util.logging.Logger;
 /**
  * Server that manages startup/shutdown of a {@code Greeter} server.
  */
+@Slf4j
 public class HelloWorldServer {
   private static final Logger logger = Logger.getLogger(HelloWorldServer.class.getName());
 
@@ -35,7 +38,7 @@ public class HelloWorldServer {
     /* The port on which the server should run */
     int port = 50051;
     server = ServerBuilder.forPort(port)
-        .addService(new GreeterImpl())
+        .addService(new GreeterImpl(this))
         .build()
         .start();
     logger.info("Server started, listening on " + port);
@@ -43,7 +46,7 @@ public class HelloWorldServer {
       @Override
       public void run() {
         // Use stderr here since the logger may have been reset by its JVM shutdown hook.
-        System.err.println("*** shutting down gRPC server since JVM is shutting down");
+        log.info("*** shutting down gRPC server since JVM is shutting down");
         try {
           HelloWorldServer.this.stop();
         } catch (InterruptedException e) {
@@ -68,6 +71,10 @@ public class HelloWorldServer {
       server.awaitTermination();
     }
   }
+  private void shutdown(){
+    System.exit(0);
+
+  }
 
   /**
    * Main launches the server from the command line.
@@ -76,15 +83,30 @@ public class HelloWorldServer {
     final HelloWorldServer server = new HelloWorldServer();
     server.start();
     server.blockUntilShutdown();
+
   }
 
   static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
-
+    private HelloWorldServer hwService;
+    public GreeterImpl(HelloWorldServer service){
+      this.hwService = service;
+    }
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
       HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
       responseObserver.onNext(reply);
       responseObserver.onCompleted();
     }
+
+    @Override
+    public void shutdown(ShutdownRequest request, StreamObserver<HelloReply> responseObserver) {
+      log.info("request,{}",request.getInstruction());
+
+      responseObserver.onNext(HelloReply.newBuilder().build());
+      responseObserver.onCompleted();
+      hwService.shutdown();
+    }
   }
+
+
 }

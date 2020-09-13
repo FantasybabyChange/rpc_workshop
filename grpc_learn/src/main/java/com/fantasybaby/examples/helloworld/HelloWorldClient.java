@@ -55,6 +55,10 @@ public class HelloWorldClient {
     }
     log.info("Greeting: " + response.getMessage());
   }
+  public void shutdown(String distrution){
+    blockingStub.shutdown(ShutdownRequest.newBuilder().setInstruction(distrution).build());
+  }
+
 
   /**
    * Greet server. If provided, the first element of {@code args} is the name to use in the
@@ -90,6 +94,8 @@ public class HelloWorldClient {
     try {
       HelloWorldClient client = new HelloWorldClient(channel);
       client.greet(user);
+      client.shutdown("hello");
+
     } finally {
       // ManagedChannels use resources like threads and TCP connections. To prevent leaking these
       // resources the channel should be shut down when it will no longer be used. If it may be used
