@@ -102,9 +102,9 @@ public class HelloWorldServer {
     public void shutdown(ShutdownRequest request, StreamObserver<HelloReply> responseObserver) {
       log.info("request,{}",request.getInstruction());
 
-      responseObserver.onNext(HelloReply.newBuilder().build());
+      responseObserver.onNext(HelloReply.newBuilder().setMessage("m1").build());
       responseObserver.onCompleted();
-      hwService.shutdown();
+//      hwService.shutdown();
     }
   }
 

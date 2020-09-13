@@ -24,6 +24,7 @@ import com.google.gson.stream.JsonReader;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStreamReader;
 import java.util.Map;
@@ -38,10 +39,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 /**
  * A client that requests a greeting from the {@link RetryingHelloWorldServer} with a retrying policy.
  */
+@Slf4j
 public class RetryingHelloWorldClient {
   static final String ENV_DISABLE_RETRYING = "DISABLE_RETRYING_IN_RETRYING_EXAMPLE";
 
-  private static final Logger logger = Logger.getLogger(RetryingHelloWorldClient.class.getName());
 
   private final boolean enableRetries;
   private final ManagedChannel channel;
@@ -55,7 +56,7 @@ public class RetryingHelloWorldClient {
                     new JsonReader(
                             new InputStreamReader(
                                     RetryingHelloWorldClient.class.getResourceAsStream(
-                                            "retrying_service_config.json"),
+                                            "/retrying/retrying_service_config.json"),
                                     UTF_8)),
                     Map.class);
   }
@@ -71,7 +72,10 @@ public class RetryingHelloWorldClient {
             .usePlaintext();
     if (enableRetries) {
       Map<String, ?> serviceConfig = getRetryingServiceConfig();
-      logger.info("Client started with retrying configuration: " + serviceConfig);
+      log.info("Client started with retrying configuration: " + serviceConfig);
+      /**
+       * 失败之后自己尝试,
+       */
       channelBuilder.defaultServiceConfig(serviceConfig).enableRetry();
     }
     channel = channelBuilder.build();
@@ -100,28 +104,27 @@ public class RetryingHelloWorldClient {
     totalRpcs.incrementAndGet();
 
     if (statusRuntimeException == null) {
-      logger.log(Level.INFO,"Greeting: {0}", new Object[]{response.getMessage()});
+      log.info("Greeting: {0}", new Object[]{response.getMessage()});
     } else {
-      logger.log(Level.INFO,"RPC failed: {0}", new Object[]{statusRuntimeException.getStatus()});
+      log.info("RPC failed: {0}", new Object[]{statusRuntimeException.getStatus()});
     }
   }
 
   private void printSummary() {
-    logger.log(
-            Level.INFO,
-            "\n\nTotal RPCs sent: {0}. Total RPCs failed: {1}\n",
+    log.info(
+            "\n\nTotal RPCs sent: {}. Total RPCs failed: {}\n",
             new Object[]{
                     totalRpcs.get(), failedRpcs.get()});
 
     if (enableRetries) {
-      logger.log(
-              Level.INFO,
-              "Retrying enabled. To disable retries, run the client with environment variable {0}=true.",
+      log.info(
+              
+              "Retrying enabled. To disable retries, run the client with environment variable {}=true.",
               ENV_DISABLE_RETRYING);
     } else {
-      logger.log(
-              Level.INFO,
-              "Retrying disabled. To enable retries, unset environment variable {0} and then run the client.",
+      log.info(
+              
+              "Retrying disabled. To enable retries, unset environment variable {} and then run the client.",
               ENV_DISABLE_RETRYING);
     }
   }
@@ -134,12 +137,7 @@ public class RetryingHelloWorldClient {
     for (int i = 0; i < 50; i++) {
       final String userId = "user" + i;
       executor.execute(
-              new Runnable() {
-                @Override
-                public void run() {
-                  client.greet(userId);
-                }
-              });
+              () -> client.greet(userId));
     }
     executor.awaitQuiescence(100, TimeUnit.SECONDS);
     executor.shutdown();

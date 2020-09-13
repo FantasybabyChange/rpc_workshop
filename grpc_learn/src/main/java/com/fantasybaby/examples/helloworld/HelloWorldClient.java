@@ -56,7 +56,8 @@ public class HelloWorldClient {
     log.info("Greeting: " + response.getMessage());
   }
   public void shutdown(String distrution){
-    blockingStub.shutdown(ShutdownRequest.newBuilder().setInstruction(distrution).build());
+    HelloReply shutdown = blockingStub.shutdown(ShutdownRequest.newBuilder().setInstruction(distrution).build());
+
   }
 
 

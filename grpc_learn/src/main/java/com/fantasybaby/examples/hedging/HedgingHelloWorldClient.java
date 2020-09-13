@@ -57,7 +57,7 @@ public class HedgingHelloWorldClient {
               new JsonReader(
                   new InputStreamReader(
                       HedgingHelloWorldClient.class.getResourceAsStream(
-                          "hedging_service_config.json"),
+                          "/hedging/hedging_service_config.json"),
                       UTF_8)),
               Map.class);
 
