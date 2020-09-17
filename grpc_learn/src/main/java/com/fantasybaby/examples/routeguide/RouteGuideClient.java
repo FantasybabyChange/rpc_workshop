@@ -26,6 +26,8 @@ import io.grpc.StatusRuntimeException;
 import com.fantasybaby.examples.routeguide.RouteGuideGrpc.RouteGuideBlockingStub;
 import com.fantasybaby.examples.routeguide.RouteGuideGrpc.RouteGuideStub;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +40,7 @@ import java.util.logging.Logger;
 /**
  * Sample client code that makes gRPC calls to the server.
  */
+@Slf4j
 public class RouteGuideClient {
   private static final Logger logger = Logger.getLogger(RouteGuideClient.class.getName());
 
