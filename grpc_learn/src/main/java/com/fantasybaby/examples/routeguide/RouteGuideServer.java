@@ -28,6 +28,8 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ import java.util.logging.Logger;
 /**
  * A sample gRPC server that serve the RouteGuide (see route_guide.proto) service.
  */
+@Slf4j
 public class RouteGuideServer {
   private static final Logger logger = Logger.getLogger(RouteGuideServer.class.getName());
 
@@ -178,6 +181,7 @@ public class RouteGuideServer {
 
         @Override
         public void onNext(Point point) {
+          log.info("point:{}",point);
           pointCount++;
           if (RouteGuideUtil.exists(checkFeature(point))) {
             featureCount++;
