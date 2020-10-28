@@ -18,6 +18,8 @@ package com.fantasybaby.examples.helloworld;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 
@@ -94,8 +96,14 @@ public class HelloWorldServer {
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
       HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
-      responseObserver.onNext(reply);
-      responseObserver.onCompleted();
+      try{
+        responseObserver.onError(new StatusRuntimeException(Status.fromCode(Status.Code.CANCELLED)));
+      }finally {
+        responseObserver.onCompleted();
+      }
+
+//      responseObserver.onNext(reply);
+//      responseObserver.onCompleted();
     }
 
     @Override

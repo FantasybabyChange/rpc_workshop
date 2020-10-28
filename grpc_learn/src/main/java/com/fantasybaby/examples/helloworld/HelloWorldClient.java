@@ -49,6 +49,7 @@ public class HelloWorldClient {
     HelloReply response;
     try {
       response = blockingStub.sayHello(request);
+
     } catch (StatusRuntimeException e) {
       log.info("RPC failed: {}", e.getStatus());
       return;
@@ -95,9 +96,11 @@ public class HelloWorldClient {
     try {
       HelloWorldClient client = new HelloWorldClient(channel);
       client.greet(user);
-      client.shutdown("hello");
+//      client.shutdown("hello");
 
-    } finally {
+    }catch (Exception e){
+      e.printStackTrace();
+    }finally {
       // ManagedChannels use resources like threads and TCP connections. To prevent leaking these
       // resources the channel should be shut down when it will no longer be used. If it may be used
       // again leave it running.
