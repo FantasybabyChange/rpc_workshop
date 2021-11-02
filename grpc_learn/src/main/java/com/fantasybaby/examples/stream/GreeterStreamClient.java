@@ -1,10 +1,5 @@
 package com.fantasybaby.examples.stream;
 
-import com.fantasybaby.examples.helloworld.GreeterGrpc;
-import com.fantasybaby.examples.manualflowcontrol.HelloReply;
-import com.fantasybaby.examples.manualflowcontrol.HelloRequest;
-import com.fantasybaby.examples.manualflowcontrol.StreamingGreeterGrpc;
-import com.google.protobuf.BoolValue;
 import com.kuka.rcs.bd.grpc.map.MapServiceGrpc;
 import com.kuka.rcs.bd.grpc.map.SubscribeMapRequest;
 import com.kuka.rcs.bd.grpc.map.SubscribeMapResponse;
@@ -42,12 +37,8 @@ public class GreeterStreamClient {
 
             }
         };
-        SubscribeMapRequest request = SubscribeMapRequest.newBuilder().setOnlyStatus(BoolValue.newBuilder().setValue(true).build()).build();
-        StreamObserver<SubscribeMapRequest> result = streamingGreeterStub.subscribeMap(responseObserver);
-        result.onNext(request);
-        result.onNext(request);
-        result.onNext(request);
-        result.onCompleted();
+        SubscribeMapRequest request = SubscribeMapRequest.newBuilder().build();
+        streamingGreeterStub.subscribeMap(request, responseObserver);
         try {
             Thread.sleep(6000);
         } catch (InterruptedException e) {

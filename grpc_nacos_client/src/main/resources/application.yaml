@@ -1,0 +1,30 @@
+spring:
+  #  profiles:
+  #    active: dev
+  #    include: jwt, i18n, param-types
+  application:
+    name: grpc-client
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.83.128:8848
+        enabled: true
+
+server:
+  port: 6699
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+logging:
+  config: classpath:log4j2.xml
+# default enable swagger
+grpc:
+  client:
+    rcs-basic-data:
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
