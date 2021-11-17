@@ -1,9 +1,6 @@
 package com.fantasybaby.examples.stream;
 
-import com.fantasybaby.examples.manualflowcontrol.HelloReply;
-import com.fantasybaby.examples.manualflowcontrol.HelloRequest;
 import com.fantasybaby.examples.manualflowcontrol.ManualFlowControlServer;
-import com.fantasybaby.examples.manualflowcontrol.StreamingGreeterGrpc;
 import com.google.protobuf.StringValue;
 import com.kuka.rcs.bd.grpc.map.MapCodeAndStatus;
 import com.kuka.rcs.bd.grpc.map.MapServiceGrpc;
@@ -11,7 +8,6 @@ import com.kuka.rcs.bd.grpc.map.SubscribeMapRequest;
 import com.kuka.rcs.bd.grpc.map.SubscribeMapResponse;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +30,6 @@ public class GreeterStreamServer {
     public static void main(String[] args) throws InterruptedException, IOException {
         // Service class implementation
         MapServiceGrpc.MapServiceImplBase svc = new MapServiceGrpc.MapServiceImplBase() {
-            @Override
             public StreamObserver<SubscribeMapRequest> subscribeMap(StreamObserver<SubscribeMapResponse> responseObserver) {
                 String requestUuid = UUID.randomUUID().toString();
                 StreamObserver<SubscribeMapRequest> requestObserver = new StreamObserver<SubscribeMapRequest>() {

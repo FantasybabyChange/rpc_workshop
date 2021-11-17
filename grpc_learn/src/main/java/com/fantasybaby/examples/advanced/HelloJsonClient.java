@@ -16,21 +16,17 @@
 
 package com.fantasybaby.examples.advanced;
 
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-
 import com.fantasybaby.examples.helloworld.GreeterGrpc;
 import com.fantasybaby.examples.helloworld.HelloReply;
 import com.fantasybaby.examples.helloworld.HelloRequest;
-import io.grpc.CallOptions;
-import io.grpc.Channel;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.MethodDescriptor;
-import io.grpc.StatusRuntimeException;
+import io.grpc.*;
 import io.grpc.stub.AbstractStub;
+
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static io.grpc.stub.ClientCalls.blockingUnaryCall;
 
 /**
  * Advanced example of how to swap out the serialization logic.  Normal users do not need to do
