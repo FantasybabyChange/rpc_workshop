@@ -26,8 +26,8 @@ public class GreeterMissionRequestClient {
 
     public void requestMissionUpdate() {
         missionServiceStub.updateMissionWithSubmissions(MissionAndSubmissionRequest.newBuilder()
-                .setMission(Mission.newBuilder().setCode("m1").setStatus("FINISHED"))
-                .addSubmissions(Submission.newBuilder().setStatus("FINISHED").build())
+                .setMission(Mission.newBuilder().setId(136410).setCode("m1").setStatus("CANCELED"))
+                .addSubmissions(Submission.newBuilder().setStatus("CANCELED").build())
                 .build());
     }
 
