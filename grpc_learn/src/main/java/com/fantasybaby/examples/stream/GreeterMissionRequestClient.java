@@ -1,5 +1,6 @@
 package com.fantasybaby.examples.stream;
 
+import com.google.protobuf.Int32Value;
 import com.kuka.rcs.bd.grpc.*;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
@@ -25,15 +26,23 @@ public class GreeterMissionRequestClient {
     MissionServiceGrpc.MissionServiceBlockingStub missionServiceStub = MissionServiceGrpc.newBlockingStub(channel);
 
     public void requestMissionUpdate() {
+
         missionServiceStub.updateMissionWithSubmissions(MissionAndSubmissionRequest.newBuilder()
                 .setMission(Mission.newBuilder().setId(136410).setCode("m1").setStatus("CANCELED"))
                 .addSubmissions(Submission.newBuilder().setStatus("CANCELED").build())
                 .build());
     }
 
+    public void requestMissionStatus() {
+        MissionResponse missionByRobotIdAndStatus = missionServiceStub.getMissionByMissionTypeAndStatus(MissionQueryRequest.newBuilder().setMissionType(1).setStatus("1")
+                .build());
+        System.out.println(missionByRobotIdAndStatus);
+    }
+
     public static void main(String[] args) {
 //        FINISHED
         GreeterMissionRequestClient greeterMissionStreamClient = new GreeterMissionRequestClient();
-        greeterMissionStreamClient.requestMissionUpdate();
+//        greeterMissionStreamClient.requestMissionUpdate();
+        greeterMissionStreamClient.requestMissionStatus();
     }
 }
