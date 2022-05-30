@@ -117,7 +117,7 @@
         <dependency>
             <groupId>com.kuka.rcs.bd</groupId>
             <artifactId>krcs_basic-data-common-api</artifactId>
-            <version>0.5.0.charging-SNAPSHOT</version>
+            <version>0.6.6-us-container-sub-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
