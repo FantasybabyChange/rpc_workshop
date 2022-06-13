@@ -1,9 +1,6 @@
 package com.fantasybaby.examples.stream;
 
-import com.kuka.rcs.bd.grpc.ContainerGto;
-import com.kuka.rcs.bd.grpc.ContainerServiceGrpc;
-import com.kuka.rcs.bd.grpc.EmptyParameterRequest;
-import com.kuka.rcs.bd.grpc.SubscribeContainerResponse;
+import com.kuka.rcs.bd.grpc.*;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -25,18 +22,25 @@ public class GreeterContainerStreamClient {
             .usePlaintext()
             .build();
     ContainerServiceGrpc.ContainerServiceStub c = ContainerServiceGrpc.newStub(channel);
+    ContainerServiceGrpc.ContainerServiceBlockingStub cs = ContainerServiceGrpc.newBlockingStub(channel);
 
     public static void main(String[] args) {
 
         GreeterContainerStreamClient greeterMissionStreamClient = new GreeterContainerStreamClient();
-        CountDownLatch countDownLatch = greeterMissionStreamClient.runTest();
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        greeterMissionStreamClient.getAllContainer();
+//        CountDownLatch countDownLatch = greeterMissionStreamClient.runTest();
+//
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
+    public void getAllContainer(){
+        ContainerResponse allContainers = cs.getAllContainers(EmptyParameterRequest.newBuilder().build());
+        System.out.println(allContainers);
+    }
 
     public CountDownLatch runTest() {
         return subscribeMission();
