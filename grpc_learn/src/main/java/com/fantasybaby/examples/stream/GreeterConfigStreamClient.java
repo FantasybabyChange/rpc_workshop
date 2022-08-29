@@ -78,6 +78,7 @@ public class GreeterConfigStreamClient {
         };
 
         obstacleServiceStub.subscribeObstacleDetection(EmptyParameterRequest.newBuilder().build(), responseObserver);
+
         return latch;
     }
 
